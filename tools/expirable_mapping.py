@@ -1,7 +1,5 @@
 from collections.abc import MutableMapping
-from datetime import datetime, timedelta
-
-from toolz.functoolz import memoize
+from datetime import timedelta, datetime
 
 class ExpirableMapping(MutableMapping):
 
@@ -14,15 +12,16 @@ class ExpirableMapping(MutableMapping):
 		return self.expires[key] <= datetime.now()
 
 	def _expire_time(self):
-		return datetime.now() + self.timedelta
+		return datetime.now() + self.ttl
 
-	def expire():
-		for key in self.mapping:
+	def expire(self):
+		for key in list(self.mapping):
 			if self._expired(key):
 				del self[key]
 
 	def __getitem__(self, key):
 		if self._expired(key):
+			del self[key]
 			raise KeyError()
 		return self.mapping[key]
 
@@ -38,6 +37,14 @@ class ExpirableMapping(MutableMapping):
 		self.expire()
 		return iter(self.mapping)
 
-	def __len__():
+	def __len__(self):
 		self.expire()
 		return len(self.mapping)
+
+	def __repr__(self):
+		self.expire()
+		return repr(self.mapping)
+
+	def __str__(self):
+		self.expire()
+		return str(self.mapping)
