@@ -3,9 +3,9 @@ from datetime import timedelta, datetime
 
 class ExpirableMapping(MutableMapping):
 
-	def __init__(self, ttl, mapping=None):
+	def __init__(self, ttl, mapping):
 		self.ttl = ttl
-		self.mapping = mapping or {}
+		self.mapping = mapping
 		self.expires = {}
 
 	def _expired(self, key):
