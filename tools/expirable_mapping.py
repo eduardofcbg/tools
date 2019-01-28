@@ -3,9 +3,9 @@ from datetime import timedelta, datetime
 
 class ExpirableMapping(MutableMapping):
 
-	def __init__(self, ttl, mapping=None):
+	def __init__(self, mapping, ttl):
+		self.mapping = mapping
 		self.ttl = ttl
-		self.mapping = mapping or {}
 		self.expires = {}
 
 	def _expired(self, key):
@@ -15,14 +15,14 @@ class ExpirableMapping(MutableMapping):
 		return datetime.now() + self.ttl
 
 	def expire(self):
-		for key in list(self.mapping):
+		for key in list(self):
 			if self._expired(key):
 				del self[key]
 
 	def __getitem__(self, key):
 		if self._expired(key):
 			del self[key]
-			raise KeyError()
+			raise KeyError(key)
 		return self.mapping[key]
 
 	def __setitem__(self, key, value):
