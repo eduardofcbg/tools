@@ -1,6 +1,6 @@
 from collections.abc import Iterator
 
-class CachedIterator(Iterator):
+class _CachedIterator(Iterator):
 
     def __init__(self, iterator):
         self.iterator = iterator
@@ -26,7 +26,7 @@ class CachedIterator(Iterator):
 
 
 def cache(iterator):
-    return CachedIterator(iterator)
+    return _CachedIterator(iterator)
 
 
 def cached(func):
