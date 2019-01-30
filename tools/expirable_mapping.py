@@ -15,7 +15,7 @@ class ExpirableMapping(MutableMapping):
 		return datetime.now() + self.ttl
 
 	def expire(self):
-		for key in list(self):
+		for key in list(self.mapping):
 			if self._expired(key):
 				del self[key]
 
