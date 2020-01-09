@@ -1,7 +1,7 @@
 from collections.abc import Iterator
 
-class _CachedIterator(Iterator):
 
+class _CachedIterator(Iterator):
     def __init__(self, iterator):
         self.iterator = iterator
         self.cache = []
